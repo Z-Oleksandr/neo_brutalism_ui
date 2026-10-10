@@ -121,12 +121,12 @@ class _NeoExpansionPanelState extends State<NeoExpansionPanel>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  DefaultTextStyle(
+                  DefaultTextStyle.merge(
                     style: theme.typography.titleSmall.copyWith(color: fg),
                     child: widget.title,
                   ),
                   if (widget.subtitle != null)
-                    DefaultTextStyle(
+                    DefaultTextStyle.merge(
                       style: theme.typography.caption.copyWith(
                         color: fg == theme.colors.ink
                             ? theme.colors.inkMuted

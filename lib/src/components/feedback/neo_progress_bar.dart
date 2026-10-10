@@ -79,6 +79,7 @@ class _NeoProgressBarState extends State<NeoProgressBar>
       label: widget.semanticLabel,
       value: value == null ? null : '${(value * 100).round()}%',
       child: Container(
+        width: double.infinity,
         height: widget.height,
         decoration: theme.decoration(
           color: widget.trackColor ?? theme.colors.surface,

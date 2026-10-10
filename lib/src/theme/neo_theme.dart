@@ -22,6 +22,13 @@ class NeoTheme extends InheritedTheme {
             : NeoThemeData.fallbackLight);
   }
 
+  /// The app's base text style (font family, locale features) without
+  /// decoration, for text roots outside a Material such as overlays.
+  static TextStyle baseTextStyleOf(BuildContext context) =>
+      (Theme.of(context).textTheme.bodyMedium ?? const TextStyle()).copyWith(
+        decoration: TextDecoration.none,
+      );
+
   @override
   Widget wrap(BuildContext context, Widget child) =>
       NeoTheme(data: data, child: child);

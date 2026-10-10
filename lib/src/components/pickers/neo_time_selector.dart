@@ -176,12 +176,15 @@ class _Stepper extends StatelessWidget {
                 radius: theme.radii.md,
                 shadow: Offset.zero,
               ),
-              alignment: Alignment.center,
-              child: Text(
-                label,
-                style: theme.typography.display.copyWith(
-                  color: theme.colors.ink,
-                  fontFeatures: const [FontFeature.tabularFigures()],
+              child: Center(
+                widthFactor: 1,
+                heightFactor: 1,
+                child: Text(
+                  label,
+                  style: theme.typography.display.copyWith(
+                    color: theme.colors.ink,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
                 ),
               ),
             ),

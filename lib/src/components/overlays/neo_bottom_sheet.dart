@@ -43,7 +43,9 @@ class NeoBottomSheet extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: DefaultTextStyle(
-          style: theme.typography.body.copyWith(color: ink),
+          style: NeoTheme.baseTextStyleOf(
+            context,
+          ).merge(theme.typography.body.copyWith(color: ink)),
           child: IconTheme.merge(
             data: IconThemeData(color: ink),
             child: Padding(

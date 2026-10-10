@@ -250,9 +250,11 @@ class _NeoMediaViewerState extends State<NeoMediaViewer>
       autofocus: true,
       onKeyEvent: _onKey,
       child: DefaultTextStyle(
-        style: theme.typography.label.copyWith(
-          color: colors.ink,
-          decoration: TextDecoration.none,
+        style: NeoTheme.baseTextStyleOf(context).merge(
+          theme.typography.label.copyWith(
+            color: colors.ink,
+            decoration: TextDecoration.none,
+          ),
         ),
         child: ValueListenableBuilder<double>(
           valueListenable: _drag,

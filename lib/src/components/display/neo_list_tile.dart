@@ -74,7 +74,7 @@ class NeoListTile extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DefaultTextStyle(
+                DefaultTextStyle.merge(
                   style:
                       (dense
                               ? theme.typography.bodyStrong
@@ -86,7 +86,7 @@ class NeoListTile extends StatelessWidget {
                 ),
                 if (subtitle != null) ...[
                   SizedBox(height: theme.spacing.xs / 2),
-                  DefaultTextStyle(
+                  DefaultTextStyle.merge(
                     style: theme.typography.caption.copyWith(color: mutedFg),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

@@ -83,9 +83,11 @@ class NeoPickerFrame extends StatelessWidget {
         child: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: maxWidth),
           child: DefaultTextStyle(
-            style: theme.typography.body.copyWith(
-              color: theme.colors.ink,
-              decoration: TextDecoration.none,
+            style: NeoTheme.baseTextStyleOf(context).merge(
+              theme.typography.body.copyWith(
+                color: theme.colors.ink,
+                decoration: TextDecoration.none,
+              ),
             ),
             child: Semantics(
               scopesRoute: true,
