@@ -16,6 +16,7 @@ class _InputsPageState extends State<InputsPage> {
   String _query = '';
   String? _size;
   String _city = 'Berlin';
+  String _visibility = 'Open';
   String? _menuChoice;
 
   @override
@@ -149,10 +150,10 @@ class _InputsPageState extends State<InputsPage> {
               ),
               NeoDropdown<String>(
                 items: const ['Open', 'Private', 'Secret'],
-                value: 'Open',
+                value: _visibility,
                 expanded: true,
                 labelBuilder: _identity,
-                onChanged: (_) {},
+                onChanged: (v) => setState(() => _visibility = v),
               ),
             ],
           ),
