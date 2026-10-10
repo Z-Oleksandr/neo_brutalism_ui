@@ -64,6 +64,7 @@ class NeoBadge extends StatelessWidget {
     return Semantics(
       label: semanticLabel ?? text,
       child: Stack(
+        fit: StackFit.passthrough,
         clipBehavior: Clip.none,
         children: [
           child,

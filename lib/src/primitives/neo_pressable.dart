@@ -33,6 +33,7 @@ class NeoPressable extends StatefulWidget {
     this.focusNode,
     this.autofocus = false,
     this.focusRadius,
+    this.showFocusRing = true,
     this.minTapTarget = const Size.square(48),
     this.mouseCursor,
     this.excludeSemantics = false,
@@ -51,6 +52,10 @@ class NeoPressable extends StatefulWidget {
   final FocusNode? focusNode;
   final bool autofocus;
   final BorderRadius? focusRadius;
+
+  /// Draws an outset ring while keyboard-focused. Disable when the builder
+  /// shows focus itself, e.g. in tightly stacked lists.
+  final bool showFocusRing;
 
   /// Layout is grown to at least this size, with the visual centered.
   final Size minTapTarget;
@@ -152,7 +157,7 @@ class _NeoPressableState extends State<NeoPressable>
     final theme = NeoTheme.of(context);
     final enabled = widget.enabled;
     Widget child = widget.builder(context, _states, _press);
-    if (_focused) {
+    if (_focused && widget.showFocusRing) {
       child = CustomPaint(
         foregroundPainter: _FocusRingPainter(
           color: theme.colors.focus,

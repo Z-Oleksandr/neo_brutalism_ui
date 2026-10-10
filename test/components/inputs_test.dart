@@ -74,16 +74,38 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('focus thickens the border with the focus color', (
-      tester,
-    ) async {
+    testWidgets('focus colors the border and raises a shadow', (tester) async {
       await pumpNeo(tester, _sized(const NeoTextField(hintText: 'x')));
+      final before = tester.getSize(find.byType(NeoTextField));
       await tester.tap(find.byType(TextField));
       await tester.pumpAndSettle();
-      final border = _fieldDecoration(tester).border! as Border;
+      final decoration = _fieldDecoration(tester);
+      final border = decoration.border! as Border;
       final theme = NeoThemeData.light();
       expect(border.top.color, theme.colors.focus);
-      expect(border.top.width, theme.borders.thick);
+      expect(border.top.width, theme.borders.regular);
+      expect(decoration.boxShadow!.single.offset, theme.shadows.sm);
+      expect(tester.getSize(find.byType(NeoTextField)), before);
+    });
+
+    testWidgets('icons do not change the field height', (tester) async {
+      await pumpNeo(tester, _sized(const NeoTextField(hintText: 'x')));
+      final plain = tester.getSize(find.byType(NeoTextField)).height;
+      await pumpNeo(
+        tester,
+        _sized(
+          NeoTextField(
+            hintText: 'x',
+            prefixIcon: Icons.lock,
+            suffix: NeoPressable(
+              semanticLabel: 'Show',
+              onPressed: () {},
+              builder: (_, _, _) => const Icon(Icons.visibility),
+            ),
+          ),
+        ),
+      );
+      expect(tester.getSize(find.byType(NeoTextField)).height, plain);
     });
 
     testWidgets('maxLength enforces and counts', (tester) async {

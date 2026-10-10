@@ -80,7 +80,6 @@ Future<bool> showNeoConfirmDialog({
           ),
           NeoButton(
             label: confirmLabel ?? strings.ok,
-            autofocus: true,
             color:
                 confirmColor ??
                 (destructive ? theme.colors.danger : theme.colors.primary),

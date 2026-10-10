@@ -14,6 +14,7 @@ class _NavigationPageState extends State<NavigationPage>
     with SingleTickerProviderStateMixin {
   late final TabController _controller = TabController(length: 3, vsync: this);
   int _tab = 0;
+  int _category = 0;
   int _nav = 0;
   Set<String> _range = {'week'};
   Set<String> _days = {'mon', 'wed'};
@@ -73,11 +74,10 @@ class _NavigationPageState extends State<NavigationPage>
           title: 'Scrollable tab bar',
           child: NeoTabBar(
             isScrollable: true,
+            selectedIndex: _category,
+            onChanged: (i) => setState(() => _category = i),
             activeColor: theme.colors.green,
-            tabs: [
-              for (final c in ['Music', 'Sports', 'Food', 'Art', 'Games'])
-                NeoTab(label: c),
-            ],
+            tabs: [for (final c in _categories) NeoTab(label: c)],
           ),
         ),
         CatalogSection(
@@ -107,6 +107,14 @@ class _NavigationPageState extends State<NavigationPage>
                   NeoSegment(value: 'wed', label: 'Wed'),
                   NeoSegment(value: 'thu', label: 'Thu'),
                 ],
+              ),
+              SizedBox(height: theme.spacing.md),
+              Text(
+                'Showing parties this ${_range.single}'
+                '${_days.isEmpty ? '' : ' on ${_days.join(', ')}'}',
+                style: theme.typography.bodyStrong.copyWith(
+                  color: theme.colors.ink,
+                ),
               ),
             ],
           ),
@@ -173,7 +181,11 @@ class _NavigationPageState extends State<NavigationPage>
                 margin: EdgeInsets.zero,
                 items: const [
                   NeoNavBarItem(icon: Icons.home, label: 'Home'),
-                  NeoNavBarItem(icon: Icons.message, label: 'Chat'),
+                  NeoNavBarItem(
+                    icon: Icons.message,
+                    label: 'Chat',
+                    badgeCount: 3,
+                  ),
                   NeoNavBarItem(icon: Icons.people, label: 'Social'),
                   NeoNavBarItem(icon: Icons.person, label: 'Me'),
                 ],
@@ -220,3 +232,18 @@ class _NavigationPageState extends State<NavigationPage>
     );
   }
 }
+
+const _categories = [
+  'Music',
+  'Sports',
+  'Food',
+  'Art',
+  'Games',
+  'Tech',
+  'Outdoors',
+  'Film',
+  'Dance',
+  'Books',
+  'Fitness',
+  'Travel',
+];

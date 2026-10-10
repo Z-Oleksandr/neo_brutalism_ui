@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../primitives/neo_pressable_surface.dart';
 import '../../theme/neo_theme.dart';
@@ -71,6 +72,14 @@ class NeoTimeSelector extends StatelessWidget {
           decreaseLabel: l10n.formatHour(hours(-1), alwaysUse24HourFormat: h24),
           onIncrease: () => onChanged(hours(1)),
           onDecrease: () => onChanged(hours(-1)),
+          onTyped: (n) {
+            if (h24 && n <= 23) {
+              onChanged(value.replacing(hour: n));
+            } else if (!h24 && n >= 1 && n <= 12) {
+              final pm = value.period == DayPeriod.pm ? 12 : 0;
+              onChanged(value.replacing(hour: n % 12 + pm));
+            }
+          },
         ),
         ExcludeSemantics(
           child: Text(
@@ -85,6 +94,13 @@ class NeoTimeSelector extends StatelessWidget {
           decreaseLabel: l10n.formatMinute(minutes(-1)),
           onIncrease: () => onChanged(minutes(1)),
           onDecrease: () => onChanged(minutes(-1)),
+          onTyped: (n) {
+            if (n <= 59) onChanged(value.replacing(minute: n));
+          },
+          onEditingDone: () {
+            final snapped = snap(value, minuteInterval);
+            if (snapped != value) onChanged(snapped);
+          },
         ),
         if (!h24) _period(theme, l10n),
       ],
@@ -135,6 +151,8 @@ class _Stepper extends StatelessWidget {
     required this.decreaseLabel,
     required this.onIncrease,
     required this.onDecrease,
+    required this.onTyped,
+    this.onEditingDone,
   });
 
   final String label;
@@ -143,6 +161,8 @@ class _Stepper extends StatelessWidget {
   final String decreaseLabel;
   final VoidCallback onIncrease;
   final VoidCallback onDecrease;
+  final ValueChanged<int> onTyped;
+  final VoidCallback? onEditingDone;
 
   @override
   Widget build(BuildContext context) {
@@ -165,29 +185,12 @@ class _Stepper extends StatelessWidget {
             ),
           ),
           SizedBox(height: theme.spacing.xs),
-          ExcludeSemantics(
-            child: Container(
-              constraints: const BoxConstraints(minWidth: 72),
-              padding: EdgeInsets.symmetric(
-                horizontal: theme.spacing.md,
-                vertical: theme.spacing.xs,
-              ),
-              decoration: theme.decoration(
-                radius: theme.radii.md,
-                shadow: Offset.zero,
-              ),
-              child: Center(
-                widthFactor: 1,
-                heightFactor: 1,
-                child: Text(
-                  label,
-                  style: theme.typography.display.copyWith(
-                    color: theme.colors.ink,
-                    fontFeatures: const [FontFeature.tabularFigures()],
-                  ),
-                ),
-              ),
-            ),
+          _NumberField(
+            text: label,
+            onTyped: onTyped,
+            onIncrease: onIncrease,
+            onDecrease: onDecrease,
+            onEditingDone: onEditingDone,
           ),
           SizedBox(height: theme.spacing.xs),
           ExcludeSemantics(
@@ -244,6 +247,142 @@ class _RepeatButtonState extends State<_RepeatButton> {
         size: 40,
         onPressed: widget.onStep,
         onLongPress: _start,
+      ),
+    );
+  }
+}
+
+class _NumberField extends StatefulWidget {
+  const _NumberField({
+    required this.text,
+    required this.onTyped,
+    required this.onIncrease,
+    required this.onDecrease,
+    required this.onEditingDone,
+  });
+
+  final String text;
+  final ValueChanged<int> onTyped;
+  final VoidCallback onIncrease;
+  final VoidCallback onDecrease;
+  final VoidCallback? onEditingDone;
+
+  @override
+  State<_NumberField> createState() => _NumberFieldState();
+}
+
+class _NumberFieldState extends State<_NumberField> {
+  late final TextEditingController _controller = TextEditingController(
+    text: widget.text,
+  );
+  late final FocusNode _focus = FocusNode(onKeyEvent: _onKey);
+  bool _stepped = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _focus.addListener(_onFocusChange);
+  }
+
+  @override
+  void didUpdateWidget(_NumberField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.text == _controller.text) return;
+    if (!_focus.hasFocus || _stepped) {
+      _stepped = false;
+      _setText(selectAll: _focus.hasFocus);
+    }
+  }
+
+  @override
+  void dispose() {
+    _focus
+      ..removeListener(_onFocusChange)
+      ..dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _setText({required bool selectAll}) {
+    _controller.value = TextEditingValue(
+      text: widget.text,
+      selection: selectAll
+          ? TextSelection(baseOffset: 0, extentOffset: widget.text.length)
+          : TextSelection.collapsed(offset: widget.text.length),
+    );
+  }
+
+  void _onFocusChange() {
+    if (_focus.hasFocus) {
+      _setText(selectAll: true);
+    } else {
+      widget.onEditingDone?.call();
+      _setText(selectAll: false);
+    }
+  }
+
+  KeyEventResult _onKey(FocusNode node, KeyEvent event) {
+    if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
+      return KeyEventResult.ignored;
+    }
+    final key = event.logicalKey;
+    if (key != LogicalKeyboardKey.arrowUp &&
+        key != LogicalKeyboardKey.arrowDown) {
+      return KeyEventResult.ignored;
+    }
+    _stepped = true;
+    key == LogicalKeyboardKey.arrowUp
+        ? widget.onIncrease()
+        : widget.onDecrease();
+    return KeyEventResult.handled;
+  }
+
+  void _onChanged(String raw) {
+    final n = int.tryParse(raw);
+    if (n != null) widget.onTyped(n);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = NeoTheme.of(context);
+    final colors = theme.colors;
+    return ListenableBuilder(
+      listenable: _focus,
+      builder: (context, child) => Container(
+        width: 88,
+        padding: EdgeInsets.symmetric(vertical: theme.spacing.xs),
+        decoration: theme.decoration(
+          radius: theme.radii.md,
+          borderColor: _focus.hasFocus ? colors.focus : null,
+          shadow: Offset.zero,
+        ),
+        child: child,
+      ),
+      child: Material(
+        type: MaterialType.transparency,
+        child: TextField(
+          controller: _controller,
+          focusNode: _focus,
+          textAlign: TextAlign.center,
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.done,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(2),
+          ],
+          onChanged: _onChanged,
+          onSubmitted: (_) => _focus.unfocus(),
+          cursorColor: colors.ink,
+          style: theme.typography.display.copyWith(
+            color: colors.ink,
+            fontFeatures: const [FontFeature.tabularFigures()],
+          ),
+          decoration: const InputDecoration(
+            isDense: true,
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.zero,
+          ),
+        ),
       ),
     );
   }

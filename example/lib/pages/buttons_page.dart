@@ -99,13 +99,21 @@ class _ButtonsPageState extends State<ButtonsPage> {
                 semanticLabel: 'Share',
                 onPressed: () {},
               ),
-              NeoIconButton(
-                icon: Icons.close,
-                semanticLabel: 'Close',
-                size: 36,
-                onPressed: () {},
-              ),
               const NeoIconButton(icon: Icons.block, semanticLabel: 'Blocked'),
+            ],
+          ),
+        ),
+        CatalogSection(
+          title: 'Icon button sizes (36, 44, 56)',
+          child: DemoWrap(
+            children: [
+              for (final size in const [36.0, 44.0, 56.0])
+                NeoIconButton(
+                  icon: Icons.close,
+                  semanticLabel: 'Close',
+                  size: size,
+                  onPressed: () {},
+                ),
             ],
           ),
         ),

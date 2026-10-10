@@ -178,7 +178,7 @@ void main() {
         ),
       );
       expect(button.color, NeoColors.light().danger);
-      expect(button.autofocus, isTrue);
+      expect(button.autofocus, isFalse);
     });
   });
 

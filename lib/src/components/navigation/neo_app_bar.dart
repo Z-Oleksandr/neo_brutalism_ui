@@ -97,7 +97,9 @@ class NeoAppBar extends StatelessWidget implements PreferredSizeWidget {
                 horizontal: theme.spacing.lg,
               ),
               child: NavigationToolbar(
-                leading: lead,
+                leading: lead == null
+                    ? null
+                    : Center(widthFactor: 1, child: lead),
                 middle: heading == null
                     ? null
                     : Semantics(header: true, child: heading),

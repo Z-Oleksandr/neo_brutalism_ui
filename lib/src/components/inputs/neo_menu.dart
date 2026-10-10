@@ -247,7 +247,7 @@ class _MenuEntry<T> extends StatelessWidget {
       autofocus: autofocus && item.enabled,
       selected: isSelected,
       minTapTarget: Size.zero,
-      focusRadius: BorderRadius.circular(theme.radii.sm),
+      showFocusRing: false,
       builder: (context, states, press) {
         final highlighted =
             states.contains(WidgetState.hovered) ||

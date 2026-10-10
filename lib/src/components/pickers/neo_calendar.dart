@@ -154,15 +154,21 @@ class _NeoCalendarState extends State<NeoCalendar> {
             ? constraints.maxWidth
             : 7 * 48.0;
         final cell = math.min(48.0, width / 7);
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _header(theme, l10n),
-            SizedBox(height: theme.spacing.sm),
-            _weekdays(theme, l10n, cell),
-            SizedBox(height: theme.spacing.xs),
-            _grid(theme, l10n, cell),
-          ],
+        return Center(
+          heightFactor: 1,
+          child: SizedBox(
+            width: cell * 7,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _header(theme, l10n),
+                SizedBox(height: theme.spacing.sm),
+                _weekdays(theme, l10n, cell),
+                SizedBox(height: theme.spacing.xs),
+                _grid(theme, l10n, cell),
+              ],
+            ),
+          ),
         );
       },
     );

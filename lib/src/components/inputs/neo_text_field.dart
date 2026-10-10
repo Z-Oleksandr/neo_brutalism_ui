@@ -137,9 +137,10 @@ class _NeoTextFieldState extends State<NeoTextField> {
     final borderColor = hasError
         ? colors.danger
         : (_focused ? colors.focus : colors.border);
-    final borderWidth = hasError || _focused
-        ? theme.borders.thick
-        : theme.borders.regular;
+    final shadow = hasError || _focused ? theme.shadows.sm : Offset.zero;
+    final shadowColor = hasError
+        ? colors.danger
+        : (_focused ? colors.focus : colors.shadow);
     final duration = MediaQuery.maybeDisableAnimationsOf(context) == true
         ? Duration.zero
         : theme.motion.fast;
@@ -149,50 +150,56 @@ class _NeoTextFieldState extends State<NeoTextField> {
       decoration: BoxDecoration(
         color: fill,
         borderRadius: BorderRadius.circular(theme.radii.md),
-        border: Border.all(color: borderColor, width: borderWidth),
+        border: Border.all(color: borderColor, width: theme.borders.regular),
+        boxShadow: [BoxShadow(color: shadowColor, offset: shadow)],
       ),
-      child: Material(
-        type: MaterialType.transparency,
-        child: Semantics(
-          label: widget.label,
-          child: TextField(
-            controller: _controller,
-            focusNode: _focusNode,
-            onChanged: widget.onChanged,
-            onSubmitted: widget.onSubmitted,
-            onEditingComplete: widget.onEditingComplete,
-            onTap: widget.onTap,
-            keyboardType: widget.keyboardType,
-            textInputAction: widget.textInputAction,
-            obscureText: widget.obscureText,
-            enabled: enabled,
-            readOnly: widget.readOnly,
-            autofocus: widget.autofocus,
-            maxLength: widget.maxLength,
-            minLines: widget.minLines,
-            maxLines: widget.obscureText ? 1 : widget.maxLines,
-            inputFormatters: widget.inputFormatters,
-            textCapitalization: widget.textCapitalization,
-            autocorrect: widget.autocorrect,
-            enableSuggestions: widget.enableSuggestions,
-            autofillHints: widget.autofillHints,
-            textAlign: widget.textAlign,
-            cursorColor: ink,
-            style: theme.typography.body.copyWith(color: ink),
-            decoration: InputDecoration(
-              isDense: true,
-              border: InputBorder.none,
-              counterText: '',
-              hintText: widget.hintText,
-              hintStyle: theme.typography.body.copyWith(color: colors.inkFaint),
-              contentPadding: EdgeInsetsDirectional.symmetric(
-                horizontal: theme.spacing.md,
-                vertical: theme.spacing.md + 2,
+      child: _Affixes(
+        prefixIcon: widget.prefixIcon,
+        iconColor: enabled ? colors.inkMuted : colors.inkFaint,
+        suffix: widget.suffix,
+        spacing: theme.spacing.md,
+        onTapIcon: enabled ? _focusNode.requestFocus : null,
+        child: Material(
+          type: MaterialType.transparency,
+          child: Semantics(
+            label: widget.label,
+            child: TextField(
+              controller: _controller,
+              focusNode: _focusNode,
+              onChanged: widget.onChanged,
+              onSubmitted: widget.onSubmitted,
+              onEditingComplete: widget.onEditingComplete,
+              onTap: widget.onTap,
+              keyboardType: widget.keyboardType,
+              textInputAction: widget.textInputAction,
+              obscureText: widget.obscureText,
+              enabled: enabled,
+              readOnly: widget.readOnly,
+              autofocus: widget.autofocus,
+              maxLength: widget.maxLength,
+              minLines: widget.minLines,
+              maxLines: widget.obscureText ? 1 : widget.maxLines,
+              inputFormatters: widget.inputFormatters,
+              textCapitalization: widget.textCapitalization,
+              autocorrect: widget.autocorrect,
+              enableSuggestions: widget.enableSuggestions,
+              autofillHints: widget.autofillHints,
+              textAlign: widget.textAlign,
+              cursorColor: ink,
+              style: theme.typography.body.copyWith(color: ink),
+              decoration: InputDecoration(
+                isDense: true,
+                border: InputBorder.none,
+                counterText: '',
+                hintText: widget.hintText,
+                hintStyle: theme.typography.body.copyWith(
+                  color: colors.inkFaint,
+                ),
+                contentPadding: EdgeInsetsDirectional.symmetric(
+                  horizontal: theme.spacing.md,
+                  vertical: theme.spacing.md + 2,
+                ),
               ),
-              prefixIcon: widget.prefixIcon == null
-                  ? null
-                  : Icon(widget.prefixIcon, size: 20, color: colors.inkMuted),
-              suffixIcon: widget.suffix,
             ),
           ),
         ),
@@ -298,6 +305,53 @@ class _Footer extends StatelessWidget {
                 '${controller!.text.characters.length}/$maxLength',
                 style: caption.copyWith(color: colors.inkMuted),
               ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _Affixes extends StatelessWidget {
+  const _Affixes({
+    required this.child,
+    required this.prefixIcon,
+    required this.iconColor,
+    required this.suffix,
+    required this.spacing,
+    required this.onTapIcon,
+  });
+
+  final Widget child;
+  final IconData? prefixIcon;
+  final Color iconColor;
+  final Widget? suffix;
+  final double spacing;
+  final VoidCallback? onTapIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    if (prefixIcon == null && suffix == null) return child;
+    return Row(
+      children: [
+        if (prefixIcon != null)
+          GestureDetector(
+            onTap: onTapIcon,
+            excludeFromSemantics: true,
+            child: Padding(
+              padding: EdgeInsetsDirectional.only(start: spacing),
+              child: ExcludeSemantics(
+                child: Icon(prefixIcon, size: 20, color: iconColor),
+              ),
+            ),
+          ),
+        Expanded(child: child),
+        if (suffix != null)
+          Padding(
+            padding: EdgeInsetsDirectional.only(end: spacing / 2),
+            child: IconTheme.merge(
+              data: IconThemeData(color: iconColor, size: 20),
+              child: suffix!,
             ),
           ),
       ],

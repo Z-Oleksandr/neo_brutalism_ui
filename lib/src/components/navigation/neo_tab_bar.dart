@@ -1,3 +1,5 @@
+import 'dart:ui' show PointerDeviceKind;
+
 import 'package:flutter/material.dart';
 
 import '../../primitives/neo_surface.dart';
@@ -67,6 +69,7 @@ class NeoTabBar extends StatefulWidget {
 }
 
 class _NeoTabBarState extends State<NeoTabBar> {
+  final List<GlobalKey> _keys = [];
   @override
   void initState() {
     super.initState();
@@ -88,13 +91,32 @@ class _NeoTabBarState extends State<NeoTabBar> {
     super.dispose();
   }
 
-  void _onControllerChanged() => setState(() {});
+  void _onControllerChanged() {
+    setState(() {});
+    _reveal(_selected);
+  }
+
+  void _reveal(int index) {
+    if (!widget.isScrollable) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final target = index < _keys.length ? _keys[index].currentContext : null;
+      if (!mounted || target == null) return;
+      final reduced = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+      Scrollable.ensureVisible(
+        target,
+        alignment: 0.5,
+        duration: reduced ? Duration.zero : NeoTheme.of(context).motion.medium,
+        curve: NeoTheme.of(context).motion.curve,
+      );
+    });
+  }
 
   int get _selected => widget.controller?.index ?? widget.selectedIndex;
 
   void _select(int index) {
     widget.controller?.animateTo(index);
     widget.onChanged?.call(index);
+    _reveal(index);
   }
 
   @override
@@ -102,9 +124,13 @@ class _NeoTabBarState extends State<NeoTabBar> {
     final theme = NeoTheme.of(context);
     final active = widget.activeColor ?? theme.colors.secondary;
     final gap = theme.spacing.sm;
+    while (_keys.length < widget.tabs.length) {
+      _keys.add(GlobalKey());
+    }
     final faces = [
       for (var i = 0; i < widget.tabs.length; i++)
         NeoSegmentFace(
+          key: _keys[i],
           active: i == _selected,
           activeColor: active,
           height: widget.tabHeight,
@@ -119,6 +145,7 @@ class _NeoTabBarState extends State<NeoTabBar> {
         ? SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             clipBehavior: Clip.none,
+            padding: EdgeInsetsDirectional.only(end: theme.shadows.sm.dx),
             child: Row(
               children: [
                 for (var i = 0; i < faces.length; i++) ...[
@@ -136,11 +163,19 @@ class _NeoTabBarState extends State<NeoTabBar> {
               ],
             ],
           );
+    final content = widget.isScrollable
+        ? ScrollConfiguration(
+            behavior: ScrollConfiguration.of(
+              context,
+            ).copyWith(dragDevices: PointerDeviceKind.values.toSet()),
+            child: row,
+          )
+        : row;
     return NeoSurface(
       color: widget.color,
       padding: EdgeInsets.all(gap),
       clipBehavior: widget.isScrollable ? Clip.hardEdge : Clip.none,
-      child: row,
+      child: content,
     );
   }
 }
