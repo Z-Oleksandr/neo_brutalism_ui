@@ -1,4 +1,11 @@
+export 'neo_avatar.dart';
+export 'neo_avatar_group.dart';
 export 'neo_badge.dart';
 export 'neo_banner.dart';
 export 'neo_card.dart';
+export 'neo_chat_bubble.dart';
+export 'neo_divider.dart';
+export 'neo_expansion_panel.dart';
+export 'neo_list_tile.dart';
+export 'neo_quote_block.dart';
 export 'neo_tag.dart';
