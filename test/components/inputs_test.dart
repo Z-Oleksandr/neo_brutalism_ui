@@ -88,6 +88,55 @@ void main() {
       expect(tester.getSize(find.byType(NeoTextField)), before);
     });
 
+    for (final density in [VisualDensity.standard, VisualDensity.compact]) {
+      testWidgets('icons do not change the field height at $density', (
+        tester,
+      ) async {
+        Future<void> pumpField(Widget field) => tester.pumpWidget(
+          MaterialApp(
+            theme: NeoThemeData.light().toThemeData(
+              base: ThemeData(visualDensity: density),
+            ),
+            home: Scaffold(body: Center(child: _sized(field))),
+          ),
+        );
+        await pumpField(
+          const NeoTextField(hintText: 'x', prefixIcon: Icons.person),
+        );
+        final plain = tester.getSize(find.byType(NeoTextField)).height;
+        await pumpField(
+          NeoTextField(
+            hintText: 'x',
+            prefixIcon: Icons.lock,
+            suffix: NeoPressable(
+              semanticLabel: 'Show',
+              onPressed: () {},
+              builder: (_, _, _) => const Icon(Icons.visibility),
+            ),
+          ),
+        );
+        expect(tester.getSize(find.byType(NeoTextField)).height, plain);
+        await tester.tap(find.bySemanticsLabel('Show'));
+      });
+    }
+
+    testWidgets('search field keeps its height when text is entered', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: NeoThemeData.light().toThemeData(
+            base: ThemeData(visualDensity: VisualDensity.compact),
+          ),
+          home: Scaffold(body: Center(child: _sized(const NeoSearchField()))),
+        ),
+      );
+      final empty = tester.getSize(find.byType(NeoSearchField)).height;
+      await tester.enterText(find.byType(TextField), 'party');
+      await tester.pump();
+      expect(tester.getSize(find.byType(NeoSearchField)).height, empty);
+    });
+
     testWidgets('icons do not change the field height', (tester) async {
       await pumpNeo(tester, _sized(const NeoTextField(hintText: 'x')));
       final plain = tester.getSize(find.byType(NeoTextField)).height;

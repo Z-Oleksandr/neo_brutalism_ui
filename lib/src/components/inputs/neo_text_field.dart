@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 import '../../theme/neo_theme.dart';
@@ -347,14 +348,65 @@ class _Affixes extends StatelessWidget {
           ),
         Expanded(child: child),
         if (suffix != null)
-          Padding(
-            padding: EdgeInsetsDirectional.only(end: spacing / 2),
-            child: IconTheme.merge(
-              data: IconThemeData(color: iconColor, size: 20),
-              child: suffix!,
+          _HeightNeutral(
+            child: Padding(
+              padding: EdgeInsetsDirectional.only(end: spacing / 2),
+              child: IconTheme.merge(
+                data: IconThemeData(color: iconColor, size: 20),
+                child: suffix!,
+              ),
             ),
           ),
       ],
     );
+  }
+}
+
+/// Lays out its child at natural size but contributes no height, so a tall
+/// tap target never grows the field. Hits still reach the child.
+class _HeightNeutral extends SingleChildRenderObjectWidget {
+  const _HeightNeutral({required super.child});
+
+  @override
+  RenderObject createRenderObject(BuildContext context) =>
+      _RenderHeightNeutral();
+}
+
+class _RenderHeightNeutral extends RenderShiftedBox {
+  _RenderHeightNeutral() : super(null);
+
+  @override
+  double computeMinIntrinsicHeight(double width) => 0;
+
+  @override
+  double computeMaxIntrinsicHeight(double width) => 0;
+
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    final childSize =
+        child?.getDryLayout(constraints.copyWith(minHeight: 0)) ?? Size.zero;
+    return constraints.constrain(Size(childSize.width, 0));
+  }
+
+  @override
+  void performLayout() {
+    final c = child;
+    if (c == null) {
+      size = constraints.smallest;
+      return;
+    }
+    c.layout(
+      constraints.copyWith(minHeight: 0, maxHeight: double.infinity),
+      parentUsesSize: true,
+    );
+    size = constraints.constrain(Size(c.size.width, 0));
+    (c.parentData! as BoxParentData).offset = Offset(0, -c.size.height / 2);
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    if (!hitTestChildren(result, position: position)) return false;
+    result.add(BoxHitTestEntry(this, position));
+    return true;
   }
 }
