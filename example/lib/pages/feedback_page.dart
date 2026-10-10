@@ -146,7 +146,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
           ),
           CatalogSection(
             title: 'Error highlight',
-            child: Row(
+            child: DemoWrap(
               children: [
                 NeoErrorHighlight(
                   error: _errors == 0 ? null : _errors,
@@ -155,7 +155,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     size: NeoTagSize.medium,
                   ),
                 ),
-                const Spacer(),
                 NeoButton(
                   label: 'Fail',
                   size: NeoButtonSize.small,

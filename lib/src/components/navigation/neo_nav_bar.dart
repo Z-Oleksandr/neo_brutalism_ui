@@ -74,12 +74,14 @@ class NeoNavBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             for (var i = 0; i < items.length; i++)
-              _Item(
-                item: items[i],
-                active: i == currentIndex,
-                activeColor: active,
-                showLabel: showLabels,
-                onTap: () => onTap(i),
+              Flexible(
+                child: _Item(
+                  item: items[i],
+                  active: i == currentIndex,
+                  activeColor: active,
+                  showLabel: showLabels,
+                  onTap: () => onTap(i),
+                ),
               ),
           ],
         ),
