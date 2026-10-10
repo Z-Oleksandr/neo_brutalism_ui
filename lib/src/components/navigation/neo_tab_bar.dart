@@ -165,9 +165,8 @@ class _NeoTabBarState extends State<NeoTabBar> {
           );
     final content = widget.isScrollable
         ? ScrollConfiguration(
-            behavior: ScrollConfiguration.of(
-              context,
-            ).copyWith(dragDevices: PointerDeviceKind.values.toSet()),
+            behavior: ScrollConfiguration.of(context)
+                .copyWith(dragDevices: PointerDeviceKind.values.toSet()),
             child: row,
           )
         : row;

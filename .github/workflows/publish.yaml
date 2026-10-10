@@ -1,0 +1,63 @@
+name: publish
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: publish to pub.dev
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: pub.dev
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Match tag and pubspec version
+        id: version
+        run: |
+          version=$(sed -n 's/^version: *//p' pubspec.yaml | tr -d '[:space:]')
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match pubspec version $version"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Skip already published versions
+        id: published
+        run: |
+          name=$(sed -n 's/^name: *//p' pubspec.yaml | tr -d '[:space:]')
+          if curl -fsS "https://pub.dev/api/packages/$name" 2>/dev/null \
+            | grep -q "\"version\":\"${{ steps.version.outputs.version }}\""; then
+            echo "$name ${{ steps.version.outputs.version }} is already on pub.dev"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: dart-lang/setup-dart@v1
+        if: steps.published.outputs.skip == 'false'
+
+      - uses: subosito/flutter-action@v2
+        if: steps.published.outputs.skip == 'false'
+        with:
+          channel: stable
+          cache: true
+
+      - name: Publish
+        if: steps.published.outputs.skip == 'false'
+        run: |
+          flutter pub get
+          dart pub publish --force

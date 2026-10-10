@@ -72,9 +72,8 @@ class _CatalogAppState extends State<CatalogApp> {
       darkTheme: NeoThemeData.dark().toThemeData(),
       themeMode: _mode,
       builder: (context, child) => MediaQuery(
-        data: MediaQuery.of(
-          context,
-        ).copyWith(textScaler: TextScaler.linear(_largeText ? 1.6 : 1)),
+        data: MediaQuery.of(context)
+            .copyWith(textScaler: TextScaler.linear(_largeText ? 1.6 : 1)),
         child: Directionality(
           textDirection: _rtl ? TextDirection.rtl : TextDirection.ltr,
           child: child!,

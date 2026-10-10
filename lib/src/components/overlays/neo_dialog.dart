@@ -42,9 +42,8 @@ class NeoDialog extends StatelessWidget {
         child: Material(
           type: MaterialType.transparency,
           child: DefaultTextStyle(
-            style: NeoTheme.baseTextStyleOf(
-              context,
-            ).merge(theme.typography.body.copyWith(color: ink)),
+            style: NeoTheme.baseTextStyleOf(context)
+                .merge(theme.typography.body.copyWith(color: ink)),
             child: NeoSurface(
               color: color,
               radius: theme.radii.lg,

@@ -1,5 +1,9 @@
 # neo_brutalism_ui
 
+[![pub package](https://img.shields.io/pub/v/neo_brutalism_ui.svg)](https://pub.dev/packages/neo_brutalism_ui)
+[![ci](https://github.com/Z-Oleksandr/neo_brutalism_ui/actions/workflows/release.yaml/badge.svg)](https://github.com/Z-Oleksandr/neo_brutalism_ui/actions/workflows/release.yaml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-black.svg)](LICENSE)
+
 Neobrutalism UI components for Flutter: thick borders, hard shadows, bold type
 and saturated colors. Fully themeable, light and dark, accessible, and with
 no dependencies beyond Flutter.
@@ -15,16 +19,15 @@ no dependencies beyond Flutter.
 
 ## Install
 
-```yaml
-dependencies:
-  neo_brutalism_ui:
-    git:
-      url: <repository url>
+```sh
+flutter pub add neo_brutalism_ui
 ```
 
 ```dart
 import 'package:neo_brutalism_ui/neo_brutalism_ui.dart';
 ```
+
+Requires Flutter 3.47 or newer.
 
 ## Quick start
 
@@ -157,6 +160,16 @@ and large text:
 ```sh
 cd example && flutter run
 ```
+
+## Contributing and releases
+
+Pull requests run formatting, analysis, tests on the minimum and latest
+Flutter, a web build of the catalog and a pub score check.
+
+To release, bump `version` in `pubspec.yaml` and add a matching
+`## <version>` section to `CHANGELOG.md` in the same pull request. Merging to
+`main` tags `v<version>`, creates a GitHub release from the changelog section
+and publishes to pub.dev. Pushes that do not change the version only run CI.
 
 ## License
 

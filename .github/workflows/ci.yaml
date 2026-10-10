@@ -1,28 +1,87 @@
 name: ci
 
 on:
-  push:
-    branches: [main]
   pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   check:
+    name: check (${{ matrix.sdk }})
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
+      fail-fast: false
       matrix:
-        flutter: ["3.32.x", "stable"]
+        include:
+          - sdk: minimum
+            flutter-version: "3.47.x"
+          - sdk: latest
+            flutter-version: ""
     steps:
       - uses: actions/checkout@v4
+
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ matrix.flutter }}
+          channel: stable
+          flutter-version: ${{ matrix.flutter-version }}
+          cache: true
+
+      - name: Install dependencies
+        run: |
+          flutter pub get
+          (cd example && flutter pub get)
+
+      - name: Check formatting
+        if: matrix.sdk == 'latest'
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze
+        run: |
+          flutter analyze --fatal-infos
+          (cd example && flutter analyze --fatal-infos)
+
+      - name: Test
+        run: flutter test --coverage
+
+      - name: Test example catalog
+        run: cd example && flutter test
+
+      - name: Build example for web
+        if: matrix.sdk == 'latest'
+        run: cd example && flutter build web --release
+
+      - name: Validate package
+        if: matrix.sdk == 'latest'
+        run: dart pub publish --dry-run
+
+      - name: Upload coverage
+        if: matrix.sdk == 'latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/lcov.info
+          retention-days: 14
+
+  score:
+    name: pub score
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
           channel: stable
           cache: true
-      - run: flutter pub get
-      - if: matrix.flutter == 'stable'
-        run: dart format --output=none --set-exit-if-changed .
-      - run: flutter analyze
-      - run: flutter test --coverage
-      - run: cd example && flutter pub get && flutter analyze
-      - if: matrix.flutter == 'stable'
-        run: dart pub publish --dry-run
+
+      - name: Run pana
+        run: |
+          dart pub global activate pana
+          dart pub global run pana --no-warning --exit-code-threshold 10 .

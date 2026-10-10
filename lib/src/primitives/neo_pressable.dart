@@ -6,12 +6,11 @@ import 'package:flutter/widgets.dart';
 
 import '../theme/neo_theme.dart';
 
-typedef NeoPressableWidgetBuilder =
-    Widget Function(
-      BuildContext context,
-      Set<WidgetState> states,
-      Animation<double> press,
-    );
+typedef NeoPressableWidgetBuilder = Widget Function(
+  BuildContext context,
+  Set<WidgetState> states,
+  Animation<double> press,
+);
 
 /// Interaction core shared by every tappable neo component.
 ///

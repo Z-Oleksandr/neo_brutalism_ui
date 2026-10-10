@@ -3,7 +3,9 @@ description: >-
   Neobrutalism UI components for Flutter. Thick borders, hard shadows, bold
   type and saturated colors with full light/dark theming, accessibility and
   keyboard support.
-version: 0.1.0
+version: 1.0.0
+repository: https://github.com/Z-Oleksandr/neo_brutalism_ui
+issue_tracker: https://github.com/Z-Oleksandr/neo_brutalism_ui/issues
 topics:
   - ui
   - widget
@@ -12,8 +14,8 @@ topics:
   - neobrutalism
 
 environment:
-  sdk: ^3.8.0
-  flutter: ">=3.32.0"
+  sdk: ^3.13.0
+  flutter: ">=3.47.0"
 
 dependencies:
   flutter:
