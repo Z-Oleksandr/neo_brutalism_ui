@@ -84,7 +84,11 @@ void main() {
         );
         heights.add(tester.getSize(face.first).height);
       }
-      expect(heights[0] < heights[1] && heights[1] < heights[2], isTrue, reason: "$heights");
+      expect(
+        heights[0] < heights[1] && heights[1] < heights[2],
+        isTrue,
+        reason: '$heights',
+      );
     });
 
     testWidgets('survives 2x text scale without overflow', (tester) async {

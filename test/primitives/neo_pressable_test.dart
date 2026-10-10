@@ -54,12 +54,7 @@ void main() {
     await tester.tap(find.byType(NeoPressableSurface), warnIfMissed: false);
     expect(
       tester.getSemantics(find.bySemanticsLabel('Box')),
-      matchesSemantics(
-        label: 'Box',
-        isButton: true,
-        hasEnabledState: true,
-        isFocusable: false,
-      ),
+      matchesSemantics(label: 'Box', isButton: true, hasEnabledState: true),
     );
   });
 
@@ -103,11 +98,7 @@ void main() {
   });
 
   testWidgets('reduced motion skips the press animation', (tester) async {
-    await pumpNeo(
-      tester,
-      surface(onPressed: () {}),
-      disableAnimations: true,
-    );
+    await pumpNeo(tester, surface(onPressed: () {}), disableAnimations: true);
     final gesture = await tester.startGesture(
       tester.getCenter(find.byType(NeoPressableSurface)),
     );

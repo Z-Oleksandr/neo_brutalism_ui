@@ -19,9 +19,7 @@ void main() {
   });
 
   testWidgets('falls back to dark for a dark Material theme', (tester) async {
-    await tester.pumpWidget(
-      MaterialApp(theme: ThemeData.dark(), home: probe),
-    );
+    await tester.pumpWidget(MaterialApp(theme: ThemeData.dark(), home: probe));
     expect(resolved, NeoThemeData.fallbackDark);
   });
 
@@ -69,9 +67,7 @@ void main() {
   });
 
   test('copyWith replaces only the given group', () {
-    final theme = NeoThemeData.light().copyWith(
-      radii: const NeoRadii(md: 0),
-    );
+    final theme = NeoThemeData.light().copyWith(radii: const NeoRadii(md: 0));
     expect(theme.radii.md, 0);
     expect(theme.colors, NeoColors.light());
   });
