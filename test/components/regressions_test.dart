@@ -210,4 +210,26 @@ void main() {
       expect(find.text('10'), findsOneWidget);
     });
   });
+
+  testWidgets('selected days keep two digits on one line when narrow', (
+    tester,
+  ) async {
+    await pumpNeo(
+      tester,
+      SizedBox(
+        width: 200,
+        child: NeoCalendar.range(
+          firstDate: DateTime(2026),
+          lastDate: DateTime(2026, 12, 31),
+          initialMonth: DateTime(2026, 10),
+          rangeStart: DateTime(2026, 10, 14),
+          rangeEnd: DateTime(2026, 10, 18),
+          onRangeChanged: (_, _) {},
+        ),
+      ),
+    );
+    final natural = tester.getSize(find.text('15'));
+    expect(tester.getSize(find.text('14')), natural);
+    expect(tester.getSize(find.text('18')), natural);
+  });
 }

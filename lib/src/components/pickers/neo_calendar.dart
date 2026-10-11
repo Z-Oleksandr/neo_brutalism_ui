@@ -372,15 +372,19 @@ class _DayCell extends StatelessWidget {
                   )
                 : null,
           ),
-          child: Text(
-            label,
-            style: theme.typography.label.copyWith(
-              color: fg,
-              fontWeight: selected || isToday
-                  ? FontWeight.w900
-                  : FontWeight.w700,
-              decoration: enabled ? null : TextDecoration.lineThrough,
-              decorationColor: colors.inkSubtle,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              label,
+              maxLines: 1,
+              style: theme.typography.label.copyWith(
+                color: fg,
+                fontWeight: selected || isToday
+                    ? FontWeight.w900
+                    : FontWeight.w700,
+                decoration: enabled ? null : TextDecoration.lineThrough,
+                decorationColor: colors.inkSubtle,
+              ),
             ),
           ),
         );
