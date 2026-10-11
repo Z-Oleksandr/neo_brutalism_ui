@@ -17,6 +17,10 @@ no dependencies beyond Flutter.
   text scaling and reduced motion handled by every interactive component
 - Localized defaults through `MaterialLocalizations`
 
+| Light | Dark |
+| :---: | :---: |
+| ![Light theme](doc/screenshots/hero_light.png) | ![Dark theme](doc/screenshots/hero_dark.png) |
+
 ## Install
 
 ```sh
@@ -133,6 +137,18 @@ showNeoToast(context, message: 'Saved', type: NeoToastType.success);
 Components never add outer margins, so layout stays in your hands.
 Interactive components are disabled when their callback is `null`.
 
+## Gallery
+
+| Buttons | Inputs |
+| :---: | :---: |
+| ![Buttons](doc/screenshots/buttons.png) | ![Inputs](doc/screenshots/inputs.png) |
+| **Selection** | **Navigation** |
+| ![Selection](doc/screenshots/selection.png) | ![Navigation](doc/screenshots/navigation.png) |
+| **Overlays** | **Feedback** |
+| ![Overlays](doc/screenshots/overlays.png) | ![Feedback](doc/screenshots/feedback.png) |
+| **Display** | **Pickers** |
+| ![Display](doc/screenshots/display.png) | ![Pickers](doc/screenshots/pickers.png) |
+
 ## Building your own
 
 The primitives behind every component are public:
@@ -165,6 +181,10 @@ cd example && flutter run
 
 Pull requests run formatting, analysis, tests on the minimum and latest
 Flutter, a web build of the catalog and a pub score check.
+
+Screenshots in `doc/screenshots` are rendered by
+`example/tool/screenshots_test.dart`. Regenerate them after visual changes
+with `cd example && flutter test tool/screenshots_test.dart`.
 
 To release, bump `version` in `pubspec.yaml` and add a matching
 `## <version>` section to `CHANGELOG.md` in the same pull request. Merging to

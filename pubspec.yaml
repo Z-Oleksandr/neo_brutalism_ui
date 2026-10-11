@@ -2,7 +2,7 @@ name: slab_ui
 description: >-
   Neobrutalism (neubrutalism) UI kit for Flutter. 50+ widgets with thick
   borders, hard shadows, bold type, light/dark theming and accessibility.
-version: 1.0.1
+version: 1.0.2
 repository: https://github.com/Z-Oleksandr/slab_ui
 issue_tracker: https://github.com/Z-Oleksandr/slab_ui/issues
 topics:
@@ -11,6 +11,28 @@ topics:
   - brutalism
   - ui
   - widget
+
+screenshots:
+  - description: 'Light theme: cards, inputs, chips, buttons, toast and nav bar'
+    path: doc/screenshots/hero_light.png
+  - description: 'Dark theme with the same components'
+    path: doc/screenshots/hero_dark.png
+  - description: 'Buttons: variants, sizes, colors, loading and icon buttons'
+    path: doc/screenshots/buttons.png
+  - description: 'Inputs: text fields with focus and error states, search and dropdowns'
+    path: doc/screenshots/inputs.png
+  - description: 'Selection: checkboxes, radios, switches, chips and slider'
+    path: doc/screenshots/selection.png
+  - description: 'Navigation: app bar, tab bar with badge, segmented control, nav bar'
+    path: doc/screenshots/navigation.png
+  - description: 'Overlays: confirm dialog over a scrim and an error toast'
+    path: doc/screenshots/overlays.png
+  - description: 'Feedback: alert banners, progress, skeleton shimmer, loading dots, stickers'
+    path: doc/screenshots/feedback.png
+  - description: 'Display: list tile, avatar group, tags, badge, chat bubbles, card'
+    path: doc/screenshots/display.png
+  - description: 'Pickers: range calendar and time selector'
+    path: doc/screenshots/pickers.png
 
 environment:
   sdk: ^3.13.0

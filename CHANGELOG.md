@@ -1,3 +1,9 @@
+## 1.0.2
+
+- Add component screenshots to the README and the pub.dev listing.
+- `NeoCalendar`: selected and today labels no longer wrap and clip in narrow
+  calendars.
+
 ## 1.0.1
 
 - Point package metadata at the renamed `slab_ui` repository.

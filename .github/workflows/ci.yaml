@@ -81,6 +81,9 @@ jobs:
           channel: stable
           cache: true
 
+      - name: Install screenshot tools
+        run: sudo apt-get update && sudo apt-get install -y webp
+
       - name: Run pana
         run: |
           dart pub global activate pana
