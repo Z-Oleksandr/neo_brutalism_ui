@@ -86,9 +86,9 @@ class _DateRangePickerDialogState extends State<_DateRangePickerDialog> {
       onCancel: () => Navigator.of(context).pop(),
       onConfirm: start == null || end == null
           ? null
-          : () => Navigator.of(
-              context,
-            ).pop(DateTimeRange(start: start, end: end)),
+          : () =>
+                Navigator.of(context)
+                    .pop(DateTimeRange(start: start, end: end)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

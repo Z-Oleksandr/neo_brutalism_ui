@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:neo_brutalism_ui/neo_brutalism_ui.dart';
+import 'package:slab_ui/slab_ui.dart';
 
 import '../catalog/catalog_page.dart';
 

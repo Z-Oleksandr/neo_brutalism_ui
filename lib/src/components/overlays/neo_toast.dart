@@ -53,9 +53,8 @@ class NeoToast extends StatelessWidget {
       container: true,
       liveRegion: true,
       child: DefaultTextStyle(
-        style: NeoTheme.baseTextStyleOf(
-          context,
-        ).merge(theme.typography.bodyStrong.copyWith(color: ink)),
+        style: NeoTheme.baseTextStyleOf(context)
+            .merge(theme.typography.bodyStrong.copyWith(color: ink)),
         child: NeoSurface(
           color: fill,
           padding: EdgeInsetsDirectional.fromSTEB(

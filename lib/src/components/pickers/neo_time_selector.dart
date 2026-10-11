@@ -34,9 +34,8 @@ class NeoTimeSelector extends StatelessWidget {
   /// Whether [context] prefers a 24-hour clock.
   static bool prefers24Hour(BuildContext context) {
     final always = MediaQuery.maybeAlwaysUse24HourFormatOf(context) ?? false;
-    final format = neoMaterialLocalizations(
-      context,
-    ).timeOfDayFormat(alwaysUse24HourFormat: always);
+    final format = neoMaterialLocalizations(context)
+        .timeOfDayFormat(alwaysUse24HourFormat: always);
     return always || hourFormat(of: format) != HourFormat.h;
   }
 

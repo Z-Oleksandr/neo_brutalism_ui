@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:neo_brutalism_ui/neo_brutalism_ui.dart';
-import 'package:neo_brutalism_ui_example/pages/buttons_page.dart';
-import 'package:neo_brutalism_ui_example/pages/display_page.dart';
-import 'package:neo_brutalism_ui_example/pages/feedback_page.dart';
-import 'package:neo_brutalism_ui_example/pages/inputs_page.dart';
-import 'package:neo_brutalism_ui_example/pages/media_page.dart';
-import 'package:neo_brutalism_ui_example/pages/navigation_page.dart';
-import 'package:neo_brutalism_ui_example/pages/overlays_page.dart';
-import 'package:neo_brutalism_ui_example/pages/pickers_page.dart';
-import 'package:neo_brutalism_ui_example/pages/selection_page.dart';
+import 'package:slab_ui/slab_ui.dart';
+import 'package:slab_ui_example/pages/buttons_page.dart';
+import 'package:slab_ui_example/pages/display_page.dart';
+import 'package:slab_ui_example/pages/feedback_page.dart';
+import 'package:slab_ui_example/pages/inputs_page.dart';
+import 'package:slab_ui_example/pages/media_page.dart';
+import 'package:slab_ui_example/pages/navigation_page.dart';
+import 'package:slab_ui_example/pages/overlays_page.dart';
+import 'package:slab_ui_example/pages/pickers_page.dart';
+import 'package:slab_ui_example/pages/selection_page.dart';
 
 void main() {
   const pages = <String, Widget>{

@@ -1,4 +1,4 @@
-# neo_brutalism_ui_example
+# slab_ui_example
 
 A new Flutter project.
 

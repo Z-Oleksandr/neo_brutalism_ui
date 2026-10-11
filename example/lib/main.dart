@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:neo_brutalism_ui/neo_brutalism_ui.dart';
+import 'package:slab_ui/slab_ui.dart';
 
 import 'pages/buttons_page.dart';
 import 'pages/display_page.dart';
@@ -66,15 +66,14 @@ class _CatalogAppState extends State<CatalogApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'neo_brutalism_ui',
+      title: 'slab_ui',
       debugShowCheckedModeBanner: false,
       theme: NeoThemeData.light().toThemeData(),
       darkTheme: NeoThemeData.dark().toThemeData(),
       themeMode: _mode,
       builder: (context, child) => MediaQuery(
-        data: MediaQuery.of(
-          context,
-        ).copyWith(textScaler: TextScaler.linear(_largeText ? 1.6 : 1)),
+        data: MediaQuery.of(context)
+            .copyWith(textScaler: TextScaler.linear(_largeText ? 1.6 : 1)),
         child: Directionality(
           textDirection: _rtl ? TextDirection.rtl : TextDirection.ltr,
           child: child!,
@@ -118,7 +117,7 @@ class _Home extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.all(theme.spacing.lg),
           children: [
-            const NeoBanner(text: 'NEO BRUTALISM UI'),
+            const NeoBanner(text: 'SLAB UI'),
             SizedBox(height: theme.spacing.lg),
             Wrap(
               spacing: theme.spacing.sm,

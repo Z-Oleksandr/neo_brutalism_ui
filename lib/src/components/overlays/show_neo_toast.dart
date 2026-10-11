@@ -82,8 +82,10 @@ NeoToastHandle showNeoToast(
   return handle;
 }
 
-typedef _ToastBuilder =
-    Widget Function(BuildContext context, VoidCallback onDismissRequest);
+typedef _ToastBuilder = Widget Function(
+  BuildContext context,
+  VoidCallback onDismissRequest,
+);
 
 class _ToastRequest {
   _ToastRequest({
