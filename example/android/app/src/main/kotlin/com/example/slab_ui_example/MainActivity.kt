@@ -1,4 +1,4 @@
-package com.example.neo_brutalism_ui_example
+package com.example.slab_ui_example
 
 import io.flutter.embedding.android.FlutterActivity
 

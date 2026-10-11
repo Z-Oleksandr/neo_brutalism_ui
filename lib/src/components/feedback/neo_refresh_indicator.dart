@@ -206,7 +206,7 @@ class _NeoRefreshIndicatorState extends State<NeoRefreshIndicator>
         FlutterErrorDetails(
           exception: error,
           stack: stack,
-          library: 'neo_brutalism_ui',
+          library: 'slab_ui',
           context: ErrorDescription('while running NeoRefreshIndicator'),
         ),
       );

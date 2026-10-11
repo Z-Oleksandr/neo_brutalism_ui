@@ -1,10 +1,10 @@
-# neo_brutalism_ui
+# slab_ui
 
-[![pub package](https://img.shields.io/pub/v/neo_brutalism_ui.svg)](https://pub.dev/packages/neo_brutalism_ui)
-[![ci](https://github.com/Z-Oleksandr/neo_brutalism_ui/actions/workflows/release.yaml/badge.svg)](https://github.com/Z-Oleksandr/neo_brutalism_ui/actions/workflows/release.yaml)
+[![pub package](https://img.shields.io/pub/v/slab_ui.svg)](https://pub.dev/packages/slab_ui)
+[![ci](https://github.com/Z-Oleksandr/slab_ui/actions/workflows/release.yaml/badge.svg)](https://github.com/Z-Oleksandr/slab_ui/actions/workflows/release.yaml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-black.svg)](LICENSE)
 
-Neobrutalism UI components for Flutter: thick borders, hard shadows, bold type
+Neobrutalism (neubrutalism) UI kit for Flutter: thick borders, hard shadows, bold type
 and saturated colors. Fully themeable, light and dark, accessible, and with
 no dependencies beyond Flutter.
 
@@ -20,11 +20,11 @@ no dependencies beyond Flutter.
 ## Install
 
 ```sh
-flutter pub add neo_brutalism_ui
+flutter pub add slab_ui
 ```
 
 ```dart
-import 'package:neo_brutalism_ui/neo_brutalism_ui.dart';
+import 'package:slab_ui/slab_ui.dart';
 ```
 
 Requires Flutter 3.47 or newer.

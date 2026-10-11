@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:neo_brutalism_ui/neo_brutalism_ui.dart';
+import 'package:slab_ui/slab_ui.dart';
 
 import '../helpers/pump.dart';
 

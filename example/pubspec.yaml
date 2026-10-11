@@ -1,5 +1,5 @@
-name: neo_brutalism_ui_example
-description: Component catalog for neo_brutalism_ui.
+name: slab_ui_example
+description: Component catalog for slab_ui.
 publish_to: none
 version: 1.0.0
 
@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  neo_brutalism_ui:
+  slab_ui:
     path: ../
 
 dev_dependencies:

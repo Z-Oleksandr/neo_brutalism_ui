@@ -1,6 +1,6 @@
 {
-    "name": "neo_brutalism_ui_example",
-    "short_name": "neo_brutalism_ui_example",
+    "name": "slab_ui_example",
+    "short_name": "slab_ui_example",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

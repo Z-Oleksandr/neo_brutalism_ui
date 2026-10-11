@@ -1,17 +1,16 @@
-name: neo_brutalism_ui
+name: slab_ui
 description: >-
-  Neobrutalism UI components for Flutter. Thick borders, hard shadows, bold
-  type and saturated colors with full light/dark theming, accessibility and
-  keyboard support.
+  Neobrutalism (neubrutalism) UI kit for Flutter. 50+ widgets with thick
+  borders, hard shadows, bold type, light/dark theming and accessibility.
 version: 1.0.0
-repository: https://github.com/Z-Oleksandr/neo_brutalism_ui
-issue_tracker: https://github.com/Z-Oleksandr/neo_brutalism_ui/issues
+repository: https://github.com/Z-Oleksandr/slab_ui
+issue_tracker: https://github.com/Z-Oleksandr/slab_ui/issues
 topics:
+  - neobrutalism
+  - neubrutalism
+  - brutalism
   - ui
   - widget
-  - design-system
-  - theme
-  - neobrutalism
 
 environment:
   sdk: ^3.13.0
