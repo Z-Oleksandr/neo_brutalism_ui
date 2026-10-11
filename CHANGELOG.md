@@ -1,3 +1,7 @@
+## 1.0.1
+
+- Point package metadata at the renamed `slab_ui` repository.
+
 ## 1.0.0
 
 - First stable release.
